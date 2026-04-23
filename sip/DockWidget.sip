@@ -35,9 +35,11 @@ public:
         DockWidgetForceCloseWithArea,
         NoTab,
         DeleteContentOnClose,
+        DockWidgetPinnable,
         DefaultDockWidgetFeatures,
         AllDockWidgetFeatures,
         DockWidgetAlwaysCloseAndDelete,
+        GloballyLockableFeatures,
 		NoDockWidgetFeatures
 	};
     typedef QFlags<ads::CDockWidget::DockWidgetFeature> DockWidgetFeatures;
@@ -48,6 +50,12 @@ public:
 		StateDocked,
 		StateFloating
 	};
+    
+    enum eToolBarStyleSource
+    {
+    	ToolBarStyleFromDockManager,
+    	ToolBarStyleFromDockWidget
+    };
 
 	enum eInsertMode
 	{
@@ -59,7 +67,9 @@ public:
     enum eMinimumSizeHintMode
     {
     	MinimumSizeHintFromDockWidget,
-    	MinimumSizeHintFromContent
+    	MinimumSizeHintFromContent,
+        MinimumSizeHintFromDockWidgetMinimumSize,
+    	MinimumSizeHintFromContentMinimumSize,
     };
 
 	enum eToggleViewActionMode
@@ -69,7 +79,7 @@ public:
 	};
 
 
-	CDockWidget(const QString &title, QWidget* parent /TransferThis/ = 0);
+	CDockWidget(const QString &title, QWidget* parent /TransferThis/ = Q_NULLPTR);
 	virtual ~CDockWidget();
 	virtual QSize minimumSizeHint() const;
 	void setWidget(QWidget* widget /Transfer/, ads::CDockWidget::eInsertMode InsertMode = AutoScrollArea);
@@ -79,21 +89,32 @@ public:
 	void setFeatures(ads::CDockWidget::DockWidgetFeatures features);
 	void setFeature(ads::CDockWidget::DockWidgetFeature flag, bool on);
 	ads::CDockWidget::DockWidgetFeatures features() const;
+    void notifyFeaturesChanged();
 	ads::CDockManager* dockManager() const;
 	ads::CDockContainerWidget* dockContainer() const;
+    ads::CFloatingDockContainer* floatingDockContainer() const;
 	ads::CDockAreaWidget* dockAreaWidget() const;
+    ads::CAutoHideTab* sideTabWidget() const;
+    void setSideTabWidget(ads::CAutoHideTab* SideTab /Transfer/) const;
+    bool isAutoHide() const;
+    ads::CAutoHideDockContainer* autoHideDockContainer() const;
+    ads::SideBarLocation autoHideLocation() const;
 	bool isFloating() const;
 	bool isInFloatingContainer() const;
 	bool isClosed() const;
 	QAction* toggleViewAction() const;
+    void setToggleViewAction(QAction* action);
 	void setToggleViewActionMode(ads::CDockWidget::eToggleViewActionMode Mode);
 	void setMinimumSizeHintMode(ads::CDockWidget::eMinimumSizeHintMode Mode);
+    ads::CDockWidget::eMinimumSizeHintMode minimumSizeHintMode() const;
     bool isCentralWidget() const;
 	void setIcon(const QIcon& Icon);
 	QIcon icon() const;
 	QToolBar* toolBar() const;
 	QToolBar* createDefaultToolBar();
 	void setToolBar(QToolBar* ToolBar /Transfer/ );
+    void setToolBarStyleSource(ads::CDockWidget::eToolBarStyleSource Source);
+    ads::CDockWidget::eToolBarStyleSource toolBarStyleSource() const;
 	void setToolBarStyle(Qt::ToolButtonStyle Style, ads::CDockWidget::eState State);
 	Qt::ToolButtonStyle toolBarStyle(ads::CDockWidget::eState State) const;
 	void setToolBarIconSize(const QSize& IconSize, ads::CDockWidget::eState State);
@@ -116,8 +137,11 @@ public slots:
     void setFloating();
     void deleteDockWidget();
     void closeDockWidget();
+    void requestCloseDockWidget();
     void showFullScreen();
     void showNormal();
+    void setAutoHide(bool Enable, ads::SideBarLocation Location = ads::SideBarNone, int TabIndex = -1);
+	void toggleAutoHide(ads::SideBarLocation Location = ads::SideBarNone);
 
 signals:
 	void viewToggled(bool Open);

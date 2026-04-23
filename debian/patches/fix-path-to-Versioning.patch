@@ -1,0 +1,13 @@
+Index: qt-advanced-docking-system/src/CMakeLists.txt
+===================================================================
+--- qt-advanced-docking-system.orig/src/CMakeLists.txt
++++ qt-advanced-docking-system/src/CMakeLists.txt
+@@ -1,7 +1,7 @@
+ cmake_minimum_required(VERSION 3.16)
+ project(QtAdvancedDockingSystem LANGUAGES CXX VERSION ${VERSION_SHORT})
+ include(GNUInstallDirs)
+-include(Versioning)
++include(${CMAKE_SOURCE_DIR}/cmake/modules/Versioning.cmake)
+ if (${QT_VERSION_MAJOR})
+   message(STATUS "Forced to use Qt version ${QT_VERSION_MAJOR}")
+   find_package(QT NAMES Qt${QT_VERSION_MAJOR} COMPONENTS Core REQUIRED)

@@ -1,3 +1,4 @@
 install-to-standard-paths.patch
 do-not-install-license.patch
 link-with-xcb.patch
+fix-path-to-Versioning.patch

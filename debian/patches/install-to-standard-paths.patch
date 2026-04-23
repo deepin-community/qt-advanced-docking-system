@@ -2,7 +2,7 @@ Index: qt-advanced-docking-system/CMakeLists.txt
 ===================================================================
 --- qt-advanced-docking-system.orig/CMakeLists.txt
 +++ qt-advanced-docking-system/CMakeLists.txt
-@@ -28,12 +28,6 @@ project(QtADS LANGUAGES CXX VERSION ${VE
+@@ -34,12 +34,6 @@ project(QtADS LANGUAGES CXX VERSION ${VE
  option(BUILD_STATIC "Build the static library" OFF)
  option(BUILD_EXAMPLES "Build the examples" ON)
  
@@ -19,16 +19,16 @@ Index: qt-advanced-docking-system/demo/CMakeLists.txt
 ===================================================================
 --- qt-advanced-docking-system.orig/demo/CMakeLists.txt
 +++ qt-advanced-docking-system/demo/CMakeLists.txt
-@@ -24,6 +24,8 @@ if(WIN32 AND QT_VERSION_MAJOR LESS 6)
+@@ -28,6 +28,8 @@ if(WIN32 AND QT_VERSION_MAJOR LESS 6)
      target_link_libraries(AdvancedDockingSystemDemo PUBLIC Qt${QT_VERSION_MAJOR}::AxContainer)
  endif()
- target_link_libraries(AdvancedDockingSystemDemo PRIVATE qtadvanceddocking)
+ target_link_libraries(AdvancedDockingSystemDemo PRIVATE qtadvanceddocking-qt${QT_VERSION_MAJOR})
 +
 +include(GNUInstallDirs)
  set_target_properties(AdvancedDockingSystemDemo PROPERTIES 
      AUTOMOC ON
      AUTORCC ON
-@@ -33,9 +35,9 @@ set_target_properties(AdvancedDockingSys
+@@ -37,9 +39,9 @@ set_target_properties(AdvancedDockingSys
      CXX_EXTENSIONS OFF
      VERSION ${VERSION_SHORT}
      EXPORT_NAME "Qt Advanced Docking System Demo"
@@ -213,19 +213,10 @@ Index: qt-advanced-docking-system/src/CMakeLists.txt
 ===================================================================
 --- qt-advanced-docking-system.orig/src/CMakeLists.txt
 +++ qt-advanced-docking-system/src/CMakeLists.txt
-@@ -67,6 +67,8 @@ add_library(ads::qtadvanceddocking ALIAS
- target_link_libraries(qtadvanceddocking PUBLIC Qt${QT_VERSION_MAJOR}::Core 
-                                                Qt${QT_VERSION_MAJOR}::Gui 
-                                                Qt${QT_VERSION_MAJOR}::Widgets)
-+
-+include(GNUInstallDirs)
- set_target_properties(qtadvanceddocking PROPERTIES
-     AUTOMOC ON
-     AUTORCC ON
-@@ -75,9 +77,9 @@ set_target_properties(qtadvanceddocking
-     CXX_EXTENSIONS OFF
-     VERSION ${VERSION_SHORT}
-     EXPORT_NAME "qtadvanceddocking"
+@@ -114,9 +114,9 @@ set_target_properties(${library_name} PR
+     SOVERSION ${VERSION_SONAME}
+     EXPORT_NAME ${library_name}
+     DEBUG_POSTFIX "d"
 -    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/lib"
 -    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/lib"
 -    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/bin"
@@ -233,40 +224,5 @@ Index: qt-advanced-docking-system/src/CMakeLists.txt
 +    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_INSTALL_LIBDIR}"
 +    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_INSTALL_BINDIR}"
  )
- include(CMakePackageConfigHelpers)
- write_basic_package_version_file(
-@@ -86,7 +88,7 @@ write_basic_package_version_file(
-     COMPATIBILITY SameMajorVersion
- )
- install(FILES ${ads_HEADERS}
--    DESTINATION include
-+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/qtadvanceddocking
-     COMPONENT headers
- )
- install(FILES
-@@ -97,19 +99,19 @@ install(FILES
- )
- install(TARGETS qtadvanceddocking
-     EXPORT adsTargets
--    RUNTIME DESTINATION bin
--    LIBRARY DESTINATION lib
--    ARCHIVE DESTINATION lib
--    INCLUDES DESTINATION include
-+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-+    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
- )
- 
- install(EXPORT adsTargets
-     FILE adsTargets.cmake
-     NAMESPACE ads::
--    DESTINATION lib/cmake/qtadvanceddocking
-+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/qtadvanceddocking
- )
- install(FILES qtadvanceddockingConfig.cmake "${CMAKE_CURRENT_BINARY_DIR}/qtadvanceddockingConfigVersion.cmake"
--    DESTINATION lib/cmake/qtadvanceddocking
-+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/qtadvanceddocking
- )
- 
- target_include_directories(qtadvanceddocking PUBLIC
+ if(QT_VERSION_MAJOR STREQUAL "5")
+     set_target_properties(${library_name} PROPERTIES
