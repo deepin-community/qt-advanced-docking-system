@@ -1,0 +1,3 @@
+install-to-standard-paths.patch
+do-not-install-license.patch
+link-with-xcb.patch

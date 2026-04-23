@@ -1,0 +1,272 @@
+Index: qt-advanced-docking-system/CMakeLists.txt
+===================================================================
+--- qt-advanced-docking-system.orig/CMakeLists.txt
++++ qt-advanced-docking-system/CMakeLists.txt
+@@ -28,12 +28,6 @@ project(QtADS LANGUAGES CXX VERSION ${VE
+ option(BUILD_STATIC "Build the static library" OFF)
+ option(BUILD_EXAMPLES "Build the examples" ON)
+ 
+-if("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")
+-    set(ads_PlatformDir "x86")
+-else()
+-    set(ads_PlatformDir "x64")
+-endif()
+-
+ add_subdirectory(src)
+ 
+ if(BUILD_EXAMPLES)
+Index: qt-advanced-docking-system/demo/CMakeLists.txt
+===================================================================
+--- qt-advanced-docking-system.orig/demo/CMakeLists.txt
++++ qt-advanced-docking-system/demo/CMakeLists.txt
+@@ -24,6 +24,8 @@ if(WIN32 AND QT_VERSION_MAJOR LESS 6)
+     target_link_libraries(AdvancedDockingSystemDemo PUBLIC Qt${QT_VERSION_MAJOR}::AxContainer)
+ endif()
+ target_link_libraries(AdvancedDockingSystemDemo PRIVATE qtadvanceddocking)
++
++include(GNUInstallDirs)
+ set_target_properties(AdvancedDockingSystemDemo PROPERTIES 
+     AUTOMOC ON
+     AUTORCC ON
+@@ -33,9 +35,9 @@ set_target_properties(AdvancedDockingSys
+     CXX_EXTENSIONS OFF
+     VERSION ${VERSION_SHORT}
+     EXPORT_NAME "Qt Advanced Docking System Demo"
+-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/lib"
+-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/lib"
+-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/bin"
++    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_INSTALL_LIBDIR}"
++    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_INSTALL_LIBDIR}"
++    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_INSTALL_BINDIR}"
+ )
+ #if(BUILD_STATIC)
+ #    target_compile_definitions(AdvancedDockingSystemDemo PRIVATE ADS_STATIC)
+Index: qt-advanced-docking-system/examples/centralwidget/CMakeLists.txt
+===================================================================
+--- qt-advanced-docking-system.orig/examples/centralwidget/CMakeLists.txt
++++ qt-advanced-docking-system/examples/centralwidget/CMakeLists.txt
+@@ -13,6 +13,8 @@ target_link_libraries(CentralWidgetExamp
+ target_link_libraries(CentralWidgetExample PUBLIC Qt${QT_VERSION_MAJOR}::Core 
+                                                   Qt${QT_VERSION_MAJOR}::Gui 
+                                                   Qt${QT_VERSION_MAJOR}::Widgets)
++
++include(GNUInstallDirs)
+ set_target_properties(CentralWidgetExample PROPERTIES 
+     AUTOMOC ON
+     AUTORCC ON
+@@ -22,7 +24,7 @@ set_target_properties(CentralWidgetExamp
+     CXX_EXTENSIONS OFF
+     VERSION ${VERSION_SHORT}
+     EXPORT_NAME "Qt Advanced Docking System Central Widget Example"
+-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/lib"
+-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/lib"
+-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/bin"
++    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_INSTALL_LIBDIR}"
++    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_INSTALL_LIBDIR}"
++    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_INSTALL_BINDIR}"
+ )
+Index: qt-advanced-docking-system/examples/deleteonclose/CMakeLists.txt
+===================================================================
+--- qt-advanced-docking-system.orig/examples/deleteonclose/CMakeLists.txt
++++ qt-advanced-docking-system/examples/deleteonclose/CMakeLists.txt
+@@ -11,6 +11,8 @@ target_link_libraries(DeleteOnCloseTest
+ target_link_libraries(DeleteOnCloseTest PUBLIC Qt${QT_VERSION_MAJOR}::Core 
+                                                Qt${QT_VERSION_MAJOR}::Gui 
+                                                Qt${QT_VERSION_MAJOR}::Widgets)
++
++include(GNUInstallDirs)
+ set_target_properties(DeleteOnCloseTest PROPERTIES 
+     AUTOMOC ON
+     CXX_STANDARD 14
+@@ -18,7 +20,7 @@ set_target_properties(DeleteOnCloseTest
+     CXX_EXTENSIONS OFF
+     VERSION ${VERSION_SHORT}
+     EXPORT_NAME "Qt Advanced Docking System Delete on Close Example"
+-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/lib"
+-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/lib"
+-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/bin"
++    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_INSTALL_LIBDIR}"
++    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_INSTALL_LIBDIR}"
++    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_INSTALL_BINDIR}"
+ )
+Index: qt-advanced-docking-system/examples/dockindock/CMakeLists.txt
+===================================================================
+--- qt-advanced-docking-system.orig/examples/dockindock/CMakeLists.txt
++++ qt-advanced-docking-system/examples/dockindock/CMakeLists.txt
+@@ -16,6 +16,8 @@ target_link_libraries(DockInDockExample
+ target_link_libraries(DockInDockExample PUBLIC Qt${QT_VERSION_MAJOR}::Core 
+                                            Qt${QT_VERSION_MAJOR}::Gui 
+                                            Qt${QT_VERSION_MAJOR}::Widgets)
++
++include(GNUInstallDirs)
+ set_target_properties(DockInDockExample PROPERTIES 
+     AUTOMOC ON
+     AUTORCC ON
+@@ -25,7 +27,7 @@ set_target_properties(DockInDockExample
+     CXX_EXTENSIONS OFF
+     VERSION ${VERSION_SHORT}
+     EXPORT_NAME "Qt Advanced Docking System Simple Example"
+-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/lib"
+-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/lib"
+-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/bin"
++    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_INSTALL_LIBDIR}"
++    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_INSTALL_LIBDIR}"
++    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_INSTALL_BINDIR}"
+ )
+Index: qt-advanced-docking-system/examples/emptydockarea/CMakeLists.txt
+===================================================================
+--- qt-advanced-docking-system.orig/examples/emptydockarea/CMakeLists.txt
++++ qt-advanced-docking-system/examples/emptydockarea/CMakeLists.txt
+@@ -13,6 +13,8 @@ target_link_libraries(EmptyDockAreaExamp
+ target_link_libraries(EmptyDockAreaExample PUBLIC Qt${QT_VERSION_MAJOR}::Core 
+                                                   Qt${QT_VERSION_MAJOR}::Gui 
+                                                   Qt${QT_VERSION_MAJOR}::Widgets)
++
++include(GNUInstallDirs)
+ set_target_properties(EmptyDockAreaExample PROPERTIES 
+     AUTOMOC ON
+     AUTORCC ON
+@@ -22,7 +24,7 @@ set_target_properties(EmptyDockAreaExamp
+     CXX_EXTENSIONS OFF
+     VERSION ${VERSION_SHORT}
+     EXPORT_NAME "Qt Advanced Docking System Empty Dock Area Example"
+-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/lib"
+-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/lib"
+-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/bin"
++    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_INSTALL_LIBDIR}"
++    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_INSTALL_LIBDIR}"
++    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_INSTALL_BINDIR}"
+ )
+Index: qt-advanced-docking-system/examples/hideshow/CMakeLists.txt
+===================================================================
+--- qt-advanced-docking-system.orig/examples/hideshow/CMakeLists.txt
++++ qt-advanced-docking-system/examples/hideshow/CMakeLists.txt
+@@ -13,6 +13,8 @@ target_link_libraries(HideShowExample PR
+ target_link_libraries(HideShowExample PUBLIC Qt${QT_VERSION_MAJOR}::Core 
+                                              Qt${QT_VERSION_MAJOR}::Gui 
+                                              Qt${QT_VERSION_MAJOR}::Widgets)
++
++include(GNUInstallDirs)
+ set_target_properties(HideShowExample PROPERTIES 
+     AUTOMOC ON
+     AUTORCC ON
+@@ -22,7 +24,7 @@ set_target_properties(HideShowExample PR
+     CXX_EXTENSIONS OFF
+     VERSION ${VERSION_SHORT}
+     EXPORT_NAME "Qt Advanced Docking System Hide,Show Example"
+-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/lib"
+-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/lib"
+-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/bin"
++    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_INSTALL_LIBDIR}"
++    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_INSTALL_LIBDIR}"
++    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_INSTALL_BINDIR}"
+ )
+Index: qt-advanced-docking-system/examples/sidebar/CMakeLists.txt
+===================================================================
+--- qt-advanced-docking-system.orig/examples/sidebar/CMakeLists.txt
++++ qt-advanced-docking-system/examples/sidebar/CMakeLists.txt
+@@ -13,6 +13,8 @@ target_link_libraries(SidebarExample PRI
+ target_link_libraries(SidebarExample PUBLIC Qt${QT_VERSION_MAJOR}::Core 
+                                             Qt${QT_VERSION_MAJOR}::Gui 
+                                             Qt${QT_VERSION_MAJOR}::Widgets)
++
++include(GNUInstallDirs)
+ set_target_properties(SidebarExample PROPERTIES 
+     AUTOMOC ON
+     AUTORCC ON
+@@ -22,7 +24,7 @@ set_target_properties(SidebarExample PRO
+     CXX_EXTENSIONS OFF
+     VERSION ${VERSION_SHORT}
+     EXPORT_NAME "Qt Advanced Docking System Sidebar Example"
+-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/lib"
+-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/lib"
+-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/bin"
++    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_INSTALL_LIBDIR}"
++    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_INSTALL_LIBDIR}"
++    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_INSTALL_BINDIR}"
+ )
+Index: qt-advanced-docking-system/examples/simple/CMakeLists.txt
+===================================================================
+--- qt-advanced-docking-system.orig/examples/simple/CMakeLists.txt
++++ qt-advanced-docking-system/examples/simple/CMakeLists.txt
+@@ -13,6 +13,8 @@ target_link_libraries(SimpleExample PRIV
+ target_link_libraries(SimpleExample PUBLIC Qt${QT_VERSION_MAJOR}::Core 
+                                            Qt${QT_VERSION_MAJOR}::Gui 
+                                            Qt${QT_VERSION_MAJOR}::Widgets)
++
++include(GNUInstallDirs)
+ set_target_properties(SimpleExample PROPERTIES 
+     AUTOMOC ON
+     AUTORCC ON
+@@ -22,7 +24,7 @@ set_target_properties(SimpleExample PROP
+     CXX_EXTENSIONS OFF
+     VERSION ${VERSION_SHORT}
+     EXPORT_NAME "Qt Advanced Docking System Simple Example"
+-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/lib"
+-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/lib"
+-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/bin"
++    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_INSTALL_LIBDIR}"
++    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_INSTALL_LIBDIR}"
++    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_INSTALL_BINDIR}"
+ )
+Index: qt-advanced-docking-system/src/CMakeLists.txt
+===================================================================
+--- qt-advanced-docking-system.orig/src/CMakeLists.txt
++++ qt-advanced-docking-system/src/CMakeLists.txt
+@@ -67,6 +67,8 @@ add_library(ads::qtadvanceddocking ALIAS
+ target_link_libraries(qtadvanceddocking PUBLIC Qt${QT_VERSION_MAJOR}::Core 
+                                                Qt${QT_VERSION_MAJOR}::Gui 
+                                                Qt${QT_VERSION_MAJOR}::Widgets)
++
++include(GNUInstallDirs)
+ set_target_properties(qtadvanceddocking PROPERTIES
+     AUTOMOC ON
+     AUTORCC ON
+@@ -75,9 +77,9 @@ set_target_properties(qtadvanceddocking
+     CXX_EXTENSIONS OFF
+     VERSION ${VERSION_SHORT}
+     EXPORT_NAME "qtadvanceddocking"
+-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/lib"
+-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/lib"
+-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/bin"
++    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_INSTALL_LIBDIR}"
++    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_INSTALL_LIBDIR}"
++    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_INSTALL_BINDIR}"
+ )
+ include(CMakePackageConfigHelpers)
+ write_basic_package_version_file(
+@@ -86,7 +88,7 @@ write_basic_package_version_file(
+     COMPATIBILITY SameMajorVersion
+ )
+ install(FILES ${ads_HEADERS}
+-    DESTINATION include
++    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/qtadvanceddocking
+     COMPONENT headers
+ )
+ install(FILES
+@@ -97,19 +99,19 @@ install(FILES
+ )
+ install(TARGETS qtadvanceddocking
+     EXPORT adsTargets
+-    RUNTIME DESTINATION bin
+-    LIBRARY DESTINATION lib
+-    ARCHIVE DESTINATION lib
+-    INCLUDES DESTINATION include
++    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
++    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
++    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
++    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+ )
+ 
+ install(EXPORT adsTargets
+     FILE adsTargets.cmake
+     NAMESPACE ads::
+-    DESTINATION lib/cmake/qtadvanceddocking
++    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/qtadvanceddocking
+ )
+ install(FILES qtadvanceddockingConfig.cmake "${CMAKE_CURRENT_BINARY_DIR}/qtadvanceddockingConfigVersion.cmake"
+-    DESTINATION lib/cmake/qtadvanceddocking
++    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/qtadvanceddocking
+ )
+ 
+ target_include_directories(qtadvanceddocking PUBLIC
