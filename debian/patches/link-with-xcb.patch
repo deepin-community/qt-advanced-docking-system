@@ -1,0 +1,14 @@
+Index: qt-advanced-docking-system/src/CMakeLists.txt
+===================================================================
+--- qt-advanced-docking-system.orig/src/CMakeLists.txt
++++ qt-advanced-docking-system/src/CMakeLists.txt
+@@ -66,7 +66,8 @@ add_library(ads::qtadvanceddocking ALIAS
+ 
+ target_link_libraries(qtadvanceddocking PUBLIC Qt${QT_VERSION_MAJOR}::Core 
+                                                Qt${QT_VERSION_MAJOR}::Gui 
+-                                               Qt${QT_VERSION_MAJOR}::Widgets)
++                                               Qt${QT_VERSION_MAJOR}::Widgets
++                                               -lxcb)
+ 
+ include(GNUInstallDirs)
+ set_target_properties(qtadvanceddocking PROPERTIES

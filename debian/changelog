@@ -1,5 +1,5 @@
-template-repository (1.0-1) unstable; urgency=medium
+qt-advanced-docking-system (3.8.3-1) unstable; urgency=medium
 
-  * Initial release
+  * Initial upload into Debian (Closes: #1017597)
 
- -- Tsic404 <liuheng@deepin.org>  Sat, 28 Jan 2023 13:46:49 +0800
+ -- Dima Kogan <dkogan@debian.org>  Thu, 18 Aug 2022 16:44:38 -0700

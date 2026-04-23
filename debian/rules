@@ -1,4 +1,24 @@
 #!/usr/bin/make -f
+# -*- makefile -*-
+
+include /usr/share/dpkg/pkg-info.mk
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# Increase hardening to maximum, considering attack surface
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 
 %:
-	dh $@
+	dh $@ --buildsystem cmake
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
+		-DADS_VERSION=$(DEB_VERSION_UPSTREAM)
+
+# I tweak the paths so that the shipped examples can be built
+D := debian/libqt-advanced-docking-system-dev/usr/share/doc/libqt-advanced-docking-system-dev/examples
+override_dh_installexamples:
+	dh_installexamples
+	perl -p -i -e 's@\$${VERSION_SHORT}@$(DEB_VERSION_UPSTREAM)@g' $D/*/CMakeLists.txt
+	perl -p -i -e 's@\$${CMAKE_CURRENT_SOURCE_DIR}/../(../)?src@/usr/include/qtadvanceddocking/@g' $D/*/CMakeLists.txt
