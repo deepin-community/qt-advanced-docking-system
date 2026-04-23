@@ -2,16 +2,16 @@ Index: qt-advanced-docking-system/src/CMakeLists.txt
 ===================================================================
 --- qt-advanced-docking-system.orig/src/CMakeLists.txt
 +++ qt-advanced-docking-system/src/CMakeLists.txt
-@@ -91,12 +91,6 @@ install(FILES ${ads_HEADERS}
-     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/qtadvanceddocking
+@@ -138,12 +138,6 @@ install(FILES ${ads_HEADERS}
+     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${library_name}
      COMPONENT headers
  )
 -install(FILES
 -    "${CMAKE_CURRENT_SOURCE_DIR}/../LICENSE"
 -    "${CMAKE_CURRENT_SOURCE_DIR}/../gnu-lgpl-v2.1.md"
--    DESTINATION license/ads
+-    DESTINATION share/ads/license
 -    COMPONENT license
 -)
- install(TARGETS qtadvanceddocking
+ install(TARGETS ${library_name}
      EXPORT adsTargets
      RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}

@@ -54,7 +54,7 @@ ads::CDockAreaWidget* DockInDockWidget::addTabWidget( QWidget* widget, const QSt
         }
     }
 
-    ads::CDockWidget* DockWidget = new ads::CDockWidget(name);
+    ads::CDockWidget* DockWidget = m_mgr->createDockWidget(name);
     DockWidget->setWidget(widget);
     DockWidget->setIcon( icon );
 
@@ -101,7 +101,7 @@ DockInDockWidget* DockInDockWidget::createGroup( const QString& groupName, QIcon
     DockInDockWidget* child = new DockInDockWidget( this, m_topLevelDockWidget, m_perspectivesManager );
     child->setObjectName( groupName );
 
-    ads::CDockWidget* DockWidget = new ads::CDockWidget(groupName);
+    ads::CDockWidget* DockWidget = m_mgr->createDockWidget(groupName);
     DockWidget->setWidget(child);
     DockWidget->setIcon(icon);
 
@@ -206,11 +206,15 @@ void DockInDockWidget::fillPerspectivesMenu( QMenu* menu )
     if ( !perspectiveNames.isEmpty() )
     {
         QMenu* load = menu->addMenu( "Load perspective" );
-        for ( auto name : perspectiveNames )
-            load->addAction( new LoadPerspectiveAction( load, name, *this ) );
+        for (const auto& name : perspectiveNames)
+        {
+            load->addAction(new LoadPerspectiveAction( load, name, *this));
+        }
         QMenu* remove = menu->addMenu( "Remove perspective" );
-        for ( auto name : perspectiveNames )
-            remove->addAction( new RemovePerspectiveAction( remove, name, *this ) );
+        for (const auto& name : perspectiveNames)
+        {
+            remove->addAction( new RemovePerspectiveAction( remove, name, *this ));
+        }
     }
 }
 
